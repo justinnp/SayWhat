@@ -65,15 +65,15 @@ class AudioVisual extends Component {
                 onData={ (e) => this.onData(e) }
                 backgroundColor="white"
                 strokeColor="#4551A9"
-                width={1000}
+                width={1050}
                 height={300}
-              />
-                <span className="mr-auto" style={{fontSize: "40px"}}>{seconds}</span>
-                <span className="ml-auto">
-                    <Button secondary style={{fontSize: "40px"}} onClick={(e) => this.endRecording(e)}>
-                        Stop
-                    </Button>
-                </span>
+            />
+            <div class="d-flex">
+                <span style={{fontSize: "40px"}}>{seconds}</span>
+                <Button className="ml-auto p-2" secondary style={{fontSize: "40px"}} onClick={(e) => this.endRecording(e)}>
+                    Stop
+                </Button>
+            </div>
         </Fragment>
         )
     }
