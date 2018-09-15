@@ -1,4 +1,4 @@
-import http.client, urllib.request, urllib.parse, urllib.error, base64, os, json, time
+import http.client, urllib.request, urllib.parse, urllib.error, base64, os, json, time, subprocess
 from pydub import AudioSegment
 
 class SpeakerRecognition:
@@ -55,7 +55,7 @@ class SpeakerRecognition:
             conn.request("GET", "/spid/v1.0/identificationProfiles?%s" % self.params, "{body}", self.headers)
             response = conn.getresponse()
             json_obj = json.loads(response.read().decode('utf-8'))
-            # print(json_obj)
+            print(json_obj)
             conn.close()
 
             for profile in json_obj:
@@ -80,7 +80,7 @@ class SpeakerRecognition:
         except Exception as e:
             print("[Errno {0}] {1}".format(e.errno, e.strerror))
 
-    def Enroll(self, audioName, shortAudio=False):
+    def Enroll(self, profileId, audioName, shortAudio=False):
         self.headers['Content-Type'] = 'multipart/form-data'
         params = urllib.parse.urlencode({
             # Request parameters
@@ -90,10 +90,8 @@ class SpeakerRecognition:
         body = self.toMono(audioName)
         try:
             conn = http.client.HTTPSConnection(self.url)
-            conn.request("POST", "/spid/v1.0/identificationProfiles/3737246a-d86c-4d2d-8e62-9cdedafd8a8e/enroll?%s" % params, body  , self.headers)
+            conn.request("POST", "/spid/v1.0/identificationProfiles/"+profileId+"/enroll?%s" % params, body  , self.headers)
             response = conn.getresponse()
-            json_obj = json.loads(response.read().decode('utf-8'))
-            print(json_obj)
             print(response.status, response.reason)
             conn.close()
         except Exception as e:
@@ -125,9 +123,17 @@ class SpeakerRecognition:
         file_handle = sound.export(audioName, format="wav")
         return open(os.path.join(os.path.dirname(__file__), audioName), "rb")
 
+    def toWAV(self, audioName, outputName):
+        command = "ffmpeg -y -i ./"+audioName+" -vn -acodec pcm_s16le -ac 2 -ar 16000 -vn "+outputName
+        subprocess.call(command, shell=True)
+
 
 sr = SpeakerRecognition()
-processId = sr.identify("JoseOther.wav", sr.getAllProfile())
+sr.toWAV("test.webm", "NavonOther.wav")
+# sr.Enroll("bd3ea57b-e546-4c81-a64d-3e64b2dd4120", "Navon.wav")
+# time.sleep(5)
+# print(sr.getAllProfile())
+processId = sr.identify("NavonOther.wav", sr.getAllProfile(), True)
 time.sleep(5)
 sr.getIdentification(processId)
 # sr.DeleteEnrollment(sr.CreateProfile())
