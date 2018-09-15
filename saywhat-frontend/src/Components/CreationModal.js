@@ -6,6 +6,8 @@ import { LinearProgress } from 'react-md';
 import { ReactMic } from 'react-mic';
 import micIcon from './microphone.svg';
 
+const read = "I started off in Brooklyn. My father gave me a small loan of a million dollars. I came into Manhattan and I had to pay him back, and I had to pay him back with interest. But I came into Manhattan, I started buying up properties, and I did great. I did a good job. But, I was always told that would never work. I mean, I've built one of the great companies, but it's always been, you know, you can't do this, you can't do that. I'm not a schmuck. Even if the world goes to hell in a handbasket, I won't lose a penny.";
+
 class CreationModal extends PureComponent {
   constructor(props) {
       super(props);
@@ -15,19 +17,18 @@ class CreationModal extends PureComponent {
         startRecord: false,
         endRecord: false,
         blob: "",
-        showPlayback: false
+        showPlayback: false,
+        showSubmit: false
       }
   }
 
   setName = (e) => {
     this.setState({name: e})
-    // TODO: do anything with the name,
-    // Add to DB?
-    // Pass it down?
   }
 
   recordSnippet = (e) => {
     console.log("recording snippet..");
+    this.setState({showPlayback: false});
 
     // Record.
     this.setState({startRecord: true});
@@ -43,17 +44,21 @@ class CreationModal extends PureComponent {
     console.log("THIS IS THE BLOB\n", recording);
 
     // Finish recording, and show playback button for the user.
-    this.setState({showPlayback: true})
+    this.setState({showPlayback: true});
   }
 
   onData = (e) => {
-
   }
 
   playbackRecording = (e) => {
     var audio = document.getElementById('myAudioElement') || new Audio();
     audio.src = this.state.blob.blobURL;
     audio.play();
+  }
+
+  submit = (e) => {
+    // Send the Name and audio blob
+
   }
 
   render() {
@@ -65,29 +70,32 @@ class CreationModal extends PureComponent {
             title="Add User"
             onHide={this.hide}
             style={{"textAlign":"center"}}
+            width={500}
           >
             <List>
               <TextField
                 id="floating-center-title"
                 label="Name"
                 lineDirection="center"
-                placeholder="Shelly Hacks"
                 className="md-cell md-cell--bottom"
                 fullWidth={true}
-                style={{"width":"18.9em"}}
+                style={{"width":"485px"}}
                 onChange={ (e) => this.setName(e) }
               />
             <div style={{"margin-bottom": "1em"}}>
+              <br />
+              <h4>Press record and read the following carefully:</h4>
+              <p style={{padding:"1em", textAlign: "justify"}}>{read}</p>
               <Button
                 floating
                 onClick={ (e) => this.recordSnippet(e) }
-                style={{"height":"6em", "width":"6em", "margin-top":"20px"}}>
-                <MdMicNone style={{"height":"1.4em", "width":"1.4em", "margin-top":"2px"}}/>
+                style={{"height":"8em", "width":"8em", "margin-top":"15px"}}>
+                <MdMicNone style={{"height":"2em", "width":"2em", "margin-top":"2px"}}/>
               </Button>
               <ReactMic
                 record={this.state.startRecord}
-                onStop={(e) => this.endRecording(e)}
-                onData={(e) => this.onData(e)}
+                onStop={ (e) => this.endRecording(e) }
+                onData={ (e) => this.onData(e) }
                 strokeColor="#4054b2"
               />
               {this.state.showEndRecord ?
@@ -98,14 +106,27 @@ class CreationModal extends PureComponent {
                   End Snippet
                 </Button>
               : null}
-              {this.state.showPlayback ?
-                <Button
-                  raised
-                  primary
-                  onClick={ (e) => this.playbackRecording(e)}>
-                  Playback
-                </Button>
-              : null}
+              <div style={{display:"block"}}>
+                {this.state.showPlayback ?
+                  <Button
+                    raised
+                    primary
+                    onClick={ (e) => this.playbackRecording(e) }>
+                    Playback
+                  </Button>
+                : null}
+                <br />
+                <br />
+                {this.state.showPlayback ?
+                  <Button
+                    raised
+                    primary
+                    onClick={ (e) => this.submit(e) }
+                    style={{backgroundColor:"green"}}>
+                    Submit
+                  </Button>
+                : null}
+              </div>
             </div>
             </List>
           </DialogContainer>
