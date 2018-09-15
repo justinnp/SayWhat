@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import { BrowserRouter, Route } from 'react-router-dom';
-
+import sample from './wave.mov';
 
 class Home extends Component {
   constructor(props) {
@@ -12,6 +11,9 @@ class Home extends Component {
   render() {
     return(
       <div>
+        <video className='videoTag' autoPlay loop muted>
+                <source src={sample} type='video/mp4' />
+        </video>
       </div>
     );
   }
