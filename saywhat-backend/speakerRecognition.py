@@ -1,5 +1,6 @@
-import http.client, urllib.request, urllib.parse, urllib.error, base64, os, json, time, subprocess
+import http.client, urllib.request, urllib.parse, urllib.error, base64, os, json, subprocess
 from pydub import AudioSegment
+from time import sleep
 
 class SpeakerRecognition:
 
@@ -26,7 +27,8 @@ class SpeakerRecognition:
                 raise Exception
             conn.close()
         except Exception as e:
-            print("[Errno {0}] {1}".format(e.errno, e.strerror))
+            print(e)
+            # print("[Errno {0}] {1}".format(e.errno, e.strerror))
 
     def identify(self, audioName, profiles, shortAudio=False):
         self.headers['Content-Type'] = 'application/octet-stream'
@@ -138,6 +140,6 @@ sr = SpeakerRecognition()
 # time.sleep(5)
 # print(sr.getAllProfile())
 processId = sr.identify("Navon_Justin.wav", sr.getAllProfile(), True)
-time.sleep(5)
+sleep(5)
 print(sr.getIdentification(processId))
 # sr.DeleteEnrollment(sr.CreateProfile())
