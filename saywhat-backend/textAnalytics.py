@@ -19,7 +19,7 @@ class TextAnalytics:
             conn.request("POST", "/text/analytics/v2.0/keyPhrases?%s" % self.params, json.dumps(body), self.headers)
             response = conn.getresponse()
             json_obj = json.loads(response.read().decode('utf-8'))
-            print(json_obj)
+            # print(json_obj)
             return json_obj["documents"][0]["keyPhrases"]
             conn.close()
         except Exception as e:
@@ -28,7 +28,7 @@ class TextAnalytics:
 
 
 ta = TextAnalytics()
-print(ta.getKeyPhrases("Today we are going to talk about machine learning."+
+print(ta.getKeyPhrases("Today we are going to talk about machine learning "+
                  "I am going to describe the different algorithms for classification "+
-                 "and what are the best cases to use them. However we are also going to "+
+                 "and what are the best cases to use them However we are also going to "+
                  "talk about restful apis and how they integrate with machine learning"))
