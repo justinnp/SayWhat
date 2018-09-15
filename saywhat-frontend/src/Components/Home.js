@@ -1,22 +1,15 @@
-import React, { Component } from 'react';
-import sample from './wave.mov';
+import React, { Component, Fragment } from 'react';
+import shell from './shell.mov';
+import './Home.css';
 
-class Home extends Component {
-  constructor(props) {
-      super(props);
-      this.state = {
-      }
-  }
-
-  render() {
-    return(
-      <div>
-        <video className='videoTag' autoPlay loop muted>
-                <source src={sample} type='video/mp4' />
-        </video>
-      </div>
-    );
-  }
+const Home = () => {
+  return(
+    <div>
+      <video id='videoTag' autoPlay loop muted>
+        <source src={shell} type='video/mp4' />
+      </video>
+    </div>
+  );
 }
 
 export default Home;
