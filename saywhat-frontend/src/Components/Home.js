@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React from 'react';
 import shell from './shell.mov';
 import './Home.css';
 
