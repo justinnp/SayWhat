@@ -4,19 +4,28 @@ import PropTypes from 'prop-types';
 import User from './User';
 
  const UserList = (props) => {
-    return (
-            <List className="md-paper md-paper--1" style={{height:"85vh"}} >
+    if(props.users.length > 0){
+        return (
+                <List className="md-paper md-paper--1" style={{height:"85vh"}} >
+                    <Subheader primaryText="Users"/>
+                    <hr/>
+                    {props.users.map((user, index) => 
+                        <User
+                            key={index} 
+                            name={user.name}
+                            color={user.color}
+                        />
+                    )}
+                </List>
+        )
+    }
+    else {
+        return (
+            <List className="md-paper md-paper--1">
                 <Subheader primaryText="Users"/>
-                <hr/>
-                {props.users.map((user, index) => 
-                    <User
-                        key={index} 
-                        name={user.name}
-                        color={user.color}
-                    />
-                )}
             </List>
     )
+    }
 }
 
 UserList.propTypes = {

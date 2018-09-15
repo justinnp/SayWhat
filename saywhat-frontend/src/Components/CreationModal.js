@@ -1,14 +1,11 @@
-import React, {PureComponent} from 'react'
-import { NavLink } from 'react-router-dom'
-import { Button, DialogContainer, List, ListItem, TextField, SVGIcon } from 'react-md';
+import React, {Component} from 'react'
+import { Button, DialogContainer, List, TextField } from 'react-md';
 import { MdMicNone } from 'react-icons/md';
-import { LinearProgress } from 'react-md';
 import { ReactMic } from 'react-mic';
-import micIcon from './microphone.svg';
 
 const read = "I started off in Brooklyn. My father gave me a small loan of a million dollars. I came into Manhattan and I had to pay him back, and I had to pay him back with interest. But I came into Manhattan, I started buying up properties, and I did great. I did a good job. But, I was always told that would never work. I mean, I've built one of the great companies, but it's always been, you know, you can't do this, you can't do that. I'm not a schmuck. Even if the world goes to hell in a handbasket, I won't lose a penny.";
 
-class CreationModal extends PureComponent {
+class CreationModal extends Component {
   constructor(props) {
       super(props);
       this.state = {
@@ -18,9 +15,11 @@ class CreationModal extends PureComponent {
         endRecord: false,
         blob: "",
         showPlayback: false,
-        showSubmit: false
+        showSubmit: false,
+        visible: this.props.visible
       }
   }
+  
 
   setName = (e) => {
     this.setState({name: e})
@@ -39,7 +38,6 @@ class CreationModal extends PureComponent {
     this.setState({startRecord: false});
     this.setState({endRecord: true});
     this.setState({showEndRecord: false});
-
     this.setState({blob: recording});
     console.log("THIS IS THE BLOB\n", recording);
 
@@ -56,9 +54,28 @@ class CreationModal extends PureComponent {
     audio.play();
   }
 
-  submit = (e) => {
+  submit(e){
+    this.props.handleAdd(this.state.name);
+    this.toggle();
+    const data = {
+      name: this.state.name,
+      blob: this.state.blob
+    }
+    fetch('', {
+      method: 'POST',
+      body: JSON.stringify(data),
+      'content-type': 'application/json'
+    })
+    .then(response => response.json())
+    .then(data => console.log("Response: " + data))
+    .catch(error => console.error(error));
     // Send the Name and audio blob
+  }
 
+  toggle = () => {
+    this.setState({
+      visible: false
+    })
   }
 
   render() {
@@ -66,11 +83,12 @@ class CreationModal extends PureComponent {
       <div>
         <DialogContainer
             id="simple-list-dialog"
-            visible={true}
+            visible={this.state.visible}
             title="Add User"
-            onHide={this.hide}
+            onHide={this.toggle}
             style={{"textAlign":"center"}}
             width={500}
+            modal
           >
             <List>
               <TextField
