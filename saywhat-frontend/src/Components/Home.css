@@ -1,3 +1,5 @@
+
+
 #videoTag{
     background-color: rgba(0, 0, 0, 0.5);
     height: 100%;
@@ -36,3 +38,15 @@
 .microphone:hover{
     cursor: pointer;
 }
+
+.parent {
+    position: relative;
+    top: 0;
+    left: 0;
+  }
+
+  .image2 {
+    position: absolute;
+    top: 20%;
+    left: 30%;
+  }
