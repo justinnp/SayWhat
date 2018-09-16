@@ -61,7 +61,7 @@ class AudioVisual extends Component {
         <Fragment>
             <ReactMic
                 record={this.state.startRecord}
-                onStop={ (e) => this.endRecording(e) }
+                onStop={this.endRecording}
                 onData={ (e) => this.onData(e) }
                 backgroundColor="white"
                 strokeColor="#4551A9"
