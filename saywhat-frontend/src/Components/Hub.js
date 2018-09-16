@@ -17,7 +17,8 @@ class Hub extends Component {
             preSession: true,
             sessionStart: false,
             sessionEnded: false,
-            modal: false
+            modal: false,
+            meeting: "ShellHacks"
         }
     }
 
@@ -76,7 +77,7 @@ class Hub extends Component {
                     {this.state.sessionStart ? 
                         <Cell size={9}>
                             <div style={{top:"40%", left:"%3", position:"absolute"}}>
-                                <AudioVisual start={Date.now()}/>
+                                <AudioVisual start={Date.now()} meeting={this.state.meeting} speakers={this.state.users.length}/>
                             </div>
                         </Cell> : null
                     }

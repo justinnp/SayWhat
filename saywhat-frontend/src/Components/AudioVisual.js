@@ -1,8 +1,7 @@
 import React, { Component, Fragment } from 'react'
 import { ReactMic } from 'react-mic';
-import {Container} from 'reactstrap';
 import { Button } from 'react-md';
-import pause from './pause.svg';
+import { MdAddCircleOutline } from "react-icons/md";
 
 class AudioVisual extends Component {
     constructor(props) {
@@ -12,7 +11,7 @@ class AudioVisual extends Component {
           startRecord: false,
           endRecord: false,
           blob: "",
-          elapsed: 0
+          elapsed: 0,
         }
     }
 
@@ -54,6 +53,17 @@ class AudioVisual extends Component {
         console.log("THIS IS THE BLOB\n", recording);
     }
 
+    submitAudio(e){
+        // Formdata obj can hold blobs
+        const formData = new FormData();
+        formData.append("meetingName", this.props.meeting);
+        formData.append("numUsers", this.props.speakers);
+        formData.append("audio", this.state.blob.blob);
+        let req = new XMLHttpRequest();
+        req.open('POST', 'http://127.0.0.1:5000/register');
+        req.send(formData);
+    }
+
     render() {
         var elapsed = Math.round(this.state.elapsed / 100);
         var seconds = (elapsed / 10).toFixed(1);
@@ -68,11 +78,18 @@ class AudioVisual extends Component {
                 width={1050}
                 height={300}
             />
-            <div class="d-flex">
-                <span style={{fontSize: "40px"}}>{seconds}</span>
-                <Button className="ml-auto p-2" secondary style={{fontSize: "40px"}} onClick={(e) => this.endRecording(e)}>
-                    Stop
-                </Button>
+            <div className="d-flex d-inline">
+                <div className="mr-auto">
+                    <Button secondary style={{fontSize: "40px"}} onClick={(e) => this.endRecording(e)}>
+                        Stop
+                    </Button>
+                    <span className="ml-3" style={{fontSize: "40px"}}>{seconds}</span>
+                </div>
+                {this.state.endRecord ?
+                <Button className="ml-auto p-2" secondary style={{fontSize: "40px"}} onClick={ (e) => this.submitAudio(e)}>
+                    <MdAddCircleOutline />
+                </Button> : null
+                }
             </div>
         </Fragment>
         )
