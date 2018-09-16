@@ -3,7 +3,6 @@ import { Button } from 'react-md';
 import Header from './Header';
 import UserList from './UserList';
 import { Grid, Cell } from 'react-md';
-import {Container} from 'reactstrap';
 import micro from './microphone.svg';
 import CreationModal from './CreationModal';
 import AudioVisual from './AudioVisual';
@@ -19,7 +18,7 @@ class Hub extends Component {
             sessionStart: false,
             sessionEnded: false,
             modal: false,
-            meeting: "ShellHacks"
+            meeting: "ShellHacks",
         }
     }
 
@@ -53,10 +52,18 @@ class Hub extends Component {
         else return null
     }
 
-    showVisual(){
+    showVisual = () => {
         this.setState({
             sessionStart: false,
             sessionEnded: true
+        })
+    }
+
+    newSession = () => {
+        this.setState({
+            preSession: true,
+            sessionStart: false,
+            sessionEnded: false
         })
     }
 
@@ -96,7 +103,9 @@ class Hub extends Component {
                     }
                     {this.state.sessionEnded ? 
                         <Cell size={9}>
-                            <Visual />
+                            <Visual 
+                                handleSession={() => this.newSession()}
+                            />
                         </Cell> : null
                     }
                     

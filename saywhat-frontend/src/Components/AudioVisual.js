@@ -2,6 +2,7 @@ import React, { Component, Fragment } from 'react'
 import { ReactMic } from 'react-mic';
 import { Button } from 'react-md';
 import { MdAddCircleOutline } from "react-icons/md";
+import PropTypes from 'prop-types';
 
 class AudioVisual extends Component {
     constructor(props) {
@@ -57,7 +58,7 @@ class AudioVisual extends Component {
         // Formdata obj can hold blobs
         const formData = new FormData();
         formData.append("meetingName", this.props.meeting);
-        formData.append("numUsers", this.props.speakers);
+        formData.append("speakers", this.props.speakers);
         formData.append("audio", this.state.blob.blob);
         let req = new XMLHttpRequest();
         req.open('POST', 'http://127.0.0.1:5000/register');
@@ -88,13 +89,20 @@ class AudioVisual extends Component {
                 </div>
                 {this.state.endRecord ?
                 <Button className="ml-auto p-2" secondary style={{fontSize: "40px"}} onClick={ (e) => this.submitAudio(e)}>
-                    <MdAddCircleOutline />
+                    Process
                 </Button> : null
                 }
             </div>
         </Fragment>
         )
     }
+}
+
+AudioVisual.propTypes = { 
+    start: PropTypes.object,
+    speakers: PropTypes.number.isRequired,
+    handleEnd: PropTypes.func.isRequired,
+    meeting: PropTypes.string.isRequired
 }
 
 export default AudioVisual;

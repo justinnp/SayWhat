@@ -16,7 +16,7 @@ const User = (props) => {
 
 User.propTypes = {
     name: PropTypes.string.isRequired,
-    color: PropTypes.string.isRequired
+    color: PropTypes.string
 }
 
 export default User;

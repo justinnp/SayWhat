@@ -2,6 +2,8 @@ import React, {Component} from 'react'
 import { Button, DialogContainer, List, TextField } from 'react-md';
 import { MdMicNone } from 'react-icons/md';
 import { ReactMic } from 'react-mic';
+import PropTypes from 'prop-types';
+
 
 const read = "I started off in Brooklyn. My father gave me a small loan of a million dollars. I came into Manhattan and I had to pay him back, and I had to pay him back with interest. But I came into Manhattan, I started buying up properties, and I did great. I did a good job. But, I was always told that would never work. I mean, I've built one of the great companies, but it's always been, you know, you can't do this, you can't do that. I'm not a schmuck. Even if the world goes to hell in a handbasket, I won't lose a penny.";
 
@@ -147,6 +149,11 @@ class CreationModal extends Component {
       </div>
     )
   }
+}
+
+CreationModal.propTypes = { 
+  visible: PropTypes.bool.isRequired,
+  handleAdd: PropTypes.func.isRequired
 }
 
 export default CreationModal;
