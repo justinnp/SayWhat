@@ -22,7 +22,7 @@ import User from './User';
     else {
         return (
             <List className="md-paper md-paper--1">
-                <Subheader primaryText="Users"/>
+                <Subheader primaryText="No Users"/>
             </List>
     )
     }

@@ -88,7 +88,7 @@ class AudioVisual extends Component {
                     <span className="ml-3" style={{fontSize: "40px"}}>{seconds}</span>
                 </div>
                 {this.state.endRecord ?
-                <Button className="ml-auto p-2" secondary style={{fontSize: "40px"}} onClick={ (e) => this.submitAudio(e)}>
+                <Button className="ml-auto p-2" primary style={{fontSize: "40px"}} onClick={ (e) => this.submitAudio(e)}>
                     Process
                 </Button> : null
                 }

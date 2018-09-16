@@ -43,7 +43,6 @@ class CreationModal extends Component {
     this.setState({isRecording: false});
     this.setState({blob: recording});
     console.log("THIS IS THE BLOB\n", recording);
-
     // Finish recording, and show playback button for the user.
     this.setState({showPlayback: true});
   }
@@ -136,9 +135,9 @@ class CreationModal extends Component {
                 {this.state.showPlayback ?
                   <Button
                     raised
-                    primary
+                    secondary
                     onClick={ (e) => this.submit(e) }
-                    style={{backgroundColor:"green"}}>
+                    >
                     Submit
                   </Button>
                 : null}
