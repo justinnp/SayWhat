@@ -16,8 +16,7 @@ class CreationModal extends Component {
         blob: "",
         showPlayback: false,
         showSubmit: false,
-        // CHANGE THIS BACK!!!!!! TO: this.props.visible
-        visible: true
+        visible: this.props.visible
       }
   }
 
