@@ -62,6 +62,7 @@ class AudioVisual extends Component {
         let req = new XMLHttpRequest();
         req.open('POST', 'http://127.0.0.1:5000/register');
         req.send(formData);
+        this.props.handleEnd();
     }
 
     render() {

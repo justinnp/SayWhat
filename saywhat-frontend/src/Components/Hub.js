@@ -3,10 +3,11 @@ import { Button } from 'react-md';
 import Header from './Header';
 import UserList from './UserList';
 import { Grid, Cell } from 'react-md';
+import {Container} from 'reactstrap';
 import micro from './microphone.svg';
 import CreationModal from './CreationModal';
 import AudioVisual from './AudioVisual';
-import { Container } from 'reactstrap';
+import Visual from './Visual';
 import './Home.css';
 
 class Hub extends Component {
@@ -52,6 +53,13 @@ class Hub extends Component {
         else return null
     }
 
+    showVisual(){
+        this.setState({
+            sessionStart: false,
+            sessionEnded: true
+        })
+    }
+
     render() {
         return (
             <div className="App">
@@ -66,7 +74,7 @@ class Hub extends Component {
                             <Button raised primary onClick={this.setModal}>Add</Button>
                         </div>
                     </Cell>
-                    {this.state.users.length > 2 && this.state.preSession ? 
+                    {this.state.users.length > 0 && this.state.preSession ? 
                         <Cell size={9}>
                             <div style={{textAlign:"center", top:"45%", left: "55%", position:"absolute"}} onClick={this.showAudio}>
                                 <img src={micro} alt="microphone" className="microphone" />
@@ -77,8 +85,18 @@ class Hub extends Component {
                     {this.state.sessionStart ? 
                         <Cell size={9}>
                             <div style={{top:"40%", left:"%3", position:"absolute"}}>
-                                <AudioVisual start={Date.now()} meeting={this.state.meeting} speakers={this.state.users.length}/>
+                                <AudioVisual 
+                                    start={Date.now()} 
+                                    meeting={this.state.meeting} 
+                                    speakers={this.state.users.length} 
+                                    handleEnd={() => this.showVisual()}
+                                />
                             </div>
+                        </Cell> : null
+                    }
+                    {this.state.sessionEnded ? 
+                        <Cell size={9}>
+                            <Visual />
                         </Cell> : null
                     }
                     
