@@ -16,10 +16,11 @@ class CreationModal extends Component {
         blob: "",
         showPlayback: false,
         showSubmit: false,
-        visible: this.props.visible
+        // CHANGE THIS BACK!!!!!! TO: this.props.visible
+        visible: true
       }
   }
-  
+
 
   setName = (e) => {
     this.setState({name: e})
@@ -57,19 +58,27 @@ class CreationModal extends Component {
   submit(e){
     this.props.handleAdd(this.state.name);
     this.toggle();
-    const data = {
-      name: this.state.name,
-      blob: this.state.blob
-    }
-    fetch('', {
-      method: 'POST',
-      body: JSON.stringify(data),
-      'content-type': 'application/json'
-    })
-    .then(response => response.json())
-    .then(data => console.log("Response: " + data))
-    .catch(error => console.error(error));
-    // Send the Name and audio blob
+
+    // Formdata obj can hold blobs
+    const formData = new FormData();
+    formData.append("name", this.state.name);
+
+    // Wait for the blob to get to us, use a reader for this.
+    var reader = new FileReader();
+
+    // Onload will trigger when ready.
+    reader.onload = function(event) {
+      formData.append("voice", event.target.result);
+      fetch('http://127.0.0.1:5000/register', {
+        method: 'POST',
+        body: formData,
+        'content-type': 'multipart/form-data'
+      })
+      .then(response => response.json())
+      .then(data => console.log("Response: " + data))
+      .catch(error => console.error(error));
+    };
+    reader.readAsDataURL(this.state.blob['blob']);
   }
 
   toggle = () => {
