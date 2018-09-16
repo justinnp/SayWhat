@@ -13,7 +13,7 @@ class Hub extends Component {
     constructor(props){
         super(props);
         this.state = {
-            users: [{name:"Justin"}, {name:"Navon"}, {name: "Daniel"}],
+            users: [],
             preSession: true,
             sessionStart: false,
             sessionEnded: false,

@@ -6,7 +6,7 @@ import User from './User';
  const UserList = (props) => {
     if(props.users.length > 0){
         return (
-                <List className="md-paper md-paper--1" style={{height:"85vh"}} >
+                <List className="md-paper md-paper--1" style={{height:"84vh"}} >
                     <Subheader primaryText="Users"/>
                     <hr/>
                     {props.users.map((user, index) => 
