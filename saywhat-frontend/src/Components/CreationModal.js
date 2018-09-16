@@ -38,6 +38,7 @@ class CreationModal extends Component {
     this.setState({startRecord: false});
     this.setState({endRecord: true});
     this.setState({showEndRecord: false});
+    this.setState({isRecording: false});
     this.setState({blob: recording});
     console.log("THIS IS THE BLOB\n", recording);
 
@@ -61,23 +62,10 @@ class CreationModal extends Component {
     // Formdata obj can hold blobs
     const formData = new FormData();
     formData.append("name", this.state.name);
-
-    // Wait for the blob to get to us, use a reader for this.
-    var reader = new FileReader();
-
-    // Onload will trigger when ready.
-    reader.onload = function(event) {
-      formData.append("voice", event.target.result);
-      fetch('http://127.0.0.1:5000/register', {
-        method: 'POST',
-        body: formData,
-        'content-type': 'multipart/form-data'
-      })
-      .then(response => response.json())
-      .then(data => console.log("Response: " + data))
-      .catch(error => console.error(error));
-    };
-    reader.readAsDataURL(this.state.blob['blob']);
+    formData.append("audio", this.state.blob.blob);
+    let req = new XMLHttpRequest();
+    req.open('POST', 'http://127.0.0.1:5000/register');
+    req.send(formData);
   }
 
   toggle = () => {
